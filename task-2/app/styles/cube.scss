@@ -1,0 +1,42 @@
+@mixin cube($color: blue) {
+  li {
+    @for $i from 1 through 10 {
+      $color: lighten($color, $i * 2.5);
+
+      &:nth-of-type(#{$i}) {
+        .cube {
+          width: 300px;
+          height: 300px;
+          overflow: hidden;
+
+          &:before, &:after, .inner {
+            transform-origin: 0 0;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            content: '';
+          }
+
+          .inner {
+            background: lighten($color, $i + 10);
+            transform: rotate(-30deg) skewX(-30deg) translate(130px, 172px) scaleY(0.864);
+          }
+
+          &:before {
+            background: lighten($color, $i + 20);
+            transform: rotate(210deg) skew(-30deg) translate(-200px, -60px) scaleY(0.864);
+          }
+          &:after {
+            background: lighten($color, $i + 30);
+            transform: rotate(90deg) skewX(-30deg) scaleY(0.864) translate(68px, -131px);
+          }
+        }
+      }
+
+    }
+  }
+}
+
+.cube {
+  @include cube(blue);
+}
