@@ -1,0 +1,59 @@
+extends layouts/default
+
+//- Recursive mixin (function)
+//- Accepts two arguments: array of comments, string of parent comment
+mixin commentsList(comments, to)
+  //- Loop through the comments, getting 'comment' as current object
+  each comment in comments
+    li.comments__item
+      .comments__item-head
+        //- Render comment.author property
+        a(href="#").comments__item-author= comment.author
+        //- Condition when we have parent comment -> we need to show who is answer to
+        if to
+          span= to
+        .comments__item-date= comment.date
+      .comments__item-body= comment.body
+      .comments__actions
+        button.comments__actions-button Reply
+        button.comments__actions-button Share
+      //- If comment has answers -> go to recursion with parent comment
+      if comment.answers
+        ol.comments
+          +commentsList(comment.answers, comment.author)
+
+block content
+  -
+    var comments = [
+      {
+        author: 'DinosaurFaceOverlord',
+        date: '14 days ago',
+        body: 'THREE CHEERS FOR BERT! \n HIP HIP...',
+        answers: [
+          {
+            author: 'stetsonaw',
+            date: '14 days ago',
+            body: 'JORGE!'
+          },
+          {
+            author: 'stetsonaw',
+            date: '14 days ago',
+            body: 'JORGE!',
+            answers: [
+              {
+                author: 'stetsonaw',
+                date: '14 days ago',
+                body: 'JORGE!'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        author: 'AlfondoGonz',
+        date: '14 days ago',
+        body: 'We all know'
+      }
+    ];
+  ol.comments
+    +commentsList(comments)

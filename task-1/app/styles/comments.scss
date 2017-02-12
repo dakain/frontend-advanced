@@ -1,0 +1,24 @@
+@import "bower_components/bootstrap/scss/bootstrap.scss";
+
+.comments {
+  list-style: none;
+  counter-reset: item;
+
+  &__item {
+
+      &-head {
+        display: flex;
+        &:before {
+          content: counters(item, ".") ". ";
+          counter-increment: item;
+        }
+      }
+  }
+
+  &__actions {
+      &-button {
+          @extend .btn;
+          @extend .btn-link;
+      }
+  }
+}
